@@ -1,6 +1,8 @@
+import { stat } from "fs";
+
 console.log('Hello React and Redux');
 
-const store = Redux.createStore(function(state, action) {
+const cards = (state, action) => {
     switch(action.type) {
         case 'ADD_CARD': 
             let newCard = Object.assign({}, action.data, {
@@ -8,13 +10,23 @@ const store = Redux.createStore(function(state, action) {
                 id: +new Date
             });
 
-            return Object.assign({}, state, {
-                cards: state.cards ? state.cards.concat([newCard]) : [newCard]
-            });
+            return state.concat([newCard]);
         default: 
-            return state || { cards: [] };
+            return state || [];
     }
-});
+};
+
+const store = Redux.createStore(
+    Redux.combineReducers({
+        cards
+    })
+);
+
+// const store = Redux.createStore(function(state, action) {
+//     return {
+//         cards: cards(state.cards, action)
+//     }
+// });
 
 store.subscribe(() => {
     console.log(store.getState());

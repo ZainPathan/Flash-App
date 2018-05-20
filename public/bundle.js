@@ -1,9 +1,13 @@
 (function(){function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s}return e})()({1:[function(require,module,exports){
+
+},{}],2:[function(require,module,exports){
 'use strict';
+
+var _fs = require('fs');
 
 console.log('Hello React and Redux');
 
-var store = Redux.createStore(function (state, action) {
+var cards = function cards(state, action) {
     switch (action.type) {
         case 'ADD_CARD':
             var newCard = Object.assign({}, action.data, {
@@ -11,13 +15,21 @@ var store = Redux.createStore(function (state, action) {
                 id: +new Date()
             });
 
-            return Object.assign({}, state, {
-                cards: state.cards ? state.cards.concat([newCard]) : [newCard]
-            });
+            return state.concat([newCard]);
         default:
-            return state || { cards: [] };
+            return state || [];
     }
-});
+};
+
+var store = Redux.createStore(Redux.combineReducers({
+    cards: cards
+}));
+
+// const store = Redux.createStore(function(state, action) {
+//     return {
+//         cards: cards(state.cards, action)
+//     }
+// });
 
 store.subscribe(function () {
     console.log(store.getState());
@@ -36,4 +48,4 @@ store.dispatch({
     data: {}
 });
 
-},{}]},{},[1]);
+},{"fs":1}]},{},[2]);
