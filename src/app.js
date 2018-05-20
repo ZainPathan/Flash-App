@@ -29,7 +29,25 @@ const App = (props) => {
     </div>);
 };
 
-ReactDOM.render(<App> Hello <strong>React</strong> - using a Functional component and component children </App>, document.getElementById('root'));
+class Sidebar extends React.Component {
+    render() {
+        let props = this.props;
+
+        return (<div className='sidebar'>
+            <h2>All Decks</h2>
+            <ul>
+                {props.decks.map((deck, i) => 
+                    <li key={i}> {deck.name} </li>
+                )}
+            </ul>
+            {props.addingDeck && <input ref='add' />}
+        </div>);
+    }
+};
+
+ReactDOM.render(<App> 
+        <Sidebar decks={[ {name: 'Deck 1'} ]} addingDeck={true}></Sidebar>
+     </App>, document.getElementById('root'));
 
 // const store = Redux.createStore(function(state, action) {
 //     return {
