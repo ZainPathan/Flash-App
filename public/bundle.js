@@ -25,13 +25,34 @@ var store = Redux.createStore(Redux.combineReducers({
     cards: cards
 }));
 
+var App = function App(props) {
+    return React.createElement(
+        'div',
+        { className: 'app' },
+        props.children
+    );
+};
+
+ReactDOM.render(React.createElement(
+    App,
+    null,
+    ' Hello ',
+    React.createElement(
+        'strong',
+        null,
+        'React'
+    ),
+    ' - using a Functional component and component children '
+), document.getElementById('root'));
+
 // const store = Redux.createStore(function(state, action) {
 //     return {
 //         cards: cards(state.cards, action)
 //     }
 // });
 
-store.subscribe(function () {
+/*
+store.subscribe(() => {
     console.log(store.getState());
 });
 
@@ -45,7 +66,8 @@ store.dispatch({
 
 store.dispatch({
     type: 'ADD_CARD',
-    data: {}
+    data: { }
 });
+*/
 
 },{"fs":1}]},{},[2]);

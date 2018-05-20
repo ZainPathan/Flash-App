@@ -22,12 +22,22 @@ const store = Redux.createStore(
     })
 );
 
+const App = (props) => {
+    return (<div className='app'>
+        {/* <h1>Hello React - created using a Functional Component</h1> */}
+        {props.children}
+    </div>);
+};
+
+ReactDOM.render(<App> Hello <strong>React</strong> - using a Functional component and component children </App>, document.getElementById('root'));
+
 // const store = Redux.createStore(function(state, action) {
 //     return {
 //         cards: cards(state.cards, action)
 //     }
 // });
 
+/*
 store.subscribe(() => {
     console.log(store.getState());
 });
@@ -44,3 +54,4 @@ store.dispatch({
     type: 'ADD_CARD',
     data: { }
 });
+*/
