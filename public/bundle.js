@@ -15,6 +15,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 console.log('Hello React and Redux');
 
+//ADD_DECK
+//SHOW_ADD_DECK
+//HIDE_ADD_DECK
+
+var _addDeck = function _addDeck(name) {
+    return {
+        type: 'ADD_DECK',
+        data: name
+    };
+};
+
+var _showAddDeck = function _showAddDeck() {
+    return {
+        type: 'SHOW_ADD_DECK'
+    };
+};
+
+var _hideAddDeck = function _hideAddDeck() {
+    return {
+        type: 'HIDE_ADD_DECK'
+    };
+};
+
 var cards = function cards(state, action) {
     switch (action.type) {
         case 'ADD_CARD':
@@ -29,8 +52,34 @@ var cards = function cards(state, action) {
     }
 };
 
+var decks = function decks(state, action) {
+    switch (action.type) {
+        case 'ADD_DECK':
+            var newDeck = {
+                name: action.data,
+                id: +new Date()
+            };
+            return state.concat([newDeck]);
+        default:
+            return state || [];
+    }
+};
+
+var addingDeck = function addingDeck(state, action) {
+    switch (action.type) {
+        case 'SHOW_ADD_DECK':
+            return true;
+        case 'HIDE_ADD_DECK':
+            return false;
+        default:
+            return !!state;
+    }
+};
+
 var store = Redux.createStore(Redux.combineReducers({
-    cards: cards
+    cards: cards,
+    decks: decks,
+    addingDeck: addingDeck
 }));
 
 var App = function App(props) {
@@ -49,15 +98,26 @@ var App = function App(props) {
 var Sidebar = function (_React$Component) {
     _inherits(Sidebar, _React$Component);
 
-    function Sidebar() {
+    function Sidebar(props) {
         _classCallCheck(this, Sidebar);
 
-        return _possibleConstructorReturn(this, (Sidebar.__proto__ || Object.getPrototypeOf(Sidebar)).apply(this, arguments));
+        var _this = _possibleConstructorReturn(this, (Sidebar.__proto__ || Object.getPrototypeOf(Sidebar)).call(this, props));
+
+        _this.createDeck = _this.createDeck.bind(_this);
+        return _this;
     }
 
     _createClass(Sidebar, [{
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate() {
+            var el = ReactDOM.findDOMNode(this.refs.add);
+            if (el) el.focus();
+        }
+    }, {
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
             var props = this.props;
 
             return React.createElement(
@@ -67,6 +127,13 @@ var Sidebar = function (_React$Component) {
                     'h2',
                     null,
                     'All Decks'
+                ),
+                React.createElement(
+                    'button',
+                    { onClick: function onClick(e) {
+                            return _this2.props.showAddDeck();
+                        } },
+                    'New Deck'
                 ),
                 React.createElement(
                     'ul',
@@ -81,8 +148,17 @@ var Sidebar = function (_React$Component) {
                         );
                     })
                 ),
-                props.addingDeck && React.createElement('input', { ref: 'add' })
+                props.addingDeck && React.createElement('input', { ref: 'add', onKeyPress: this.createDeck })
             );
+        }
+    }, {
+        key: 'createDeck',
+        value: function createDeck(e) {
+            if (e.which !== 13) return;
+
+            var name = ReactDOM.findDOMNode(this.refs.add).value;
+            this.props.addDeck(name);
+            this.props.hideAddDeck();
         }
     }]);
 
@@ -91,11 +167,45 @@ var Sidebar = function (_React$Component) {
 
 ;
 
-ReactDOM.render(React.createElement(
-    App,
-    null,
-    React.createElement(Sidebar, { decks: [{ name: 'Deck 1' }], addingDeck: true })
-), document.getElementById('root'));
+function run() {
+    var state = store.getState();
+    console.log('State : ', state);
+    ReactDOM.render(React.createElement(
+        App,
+        null,
+        React.createElement(Sidebar, {
+            decks: state.decks,
+            addingDeck: state.addingDeck,
+            addDeck: function addDeck(name) {
+                return store.dispatch(_addDeck(name));
+            },
+            showAddDeck: function showAddDeck() {
+                return store.dispatch(_showAddDeck());
+            },
+            hideAddDeck: function hideAddDeck() {
+                return store.dispatch(_hideAddDeck());
+            }
+        })
+    ), document.getElementById('root'));
+}
+
+run();
+
+store.subscribe(run);
+
+window.show = function () {
+    return store.dispatch(_showAddDeck());
+};
+window.hide = function () {
+    return store.dispatch(_hideAddDeck());
+};
+window.add = function () {
+    return store.dispatch(_addDeck(new Date().toString()));
+};
+
+// ReactDOM.render(<App> 
+//         <Sidebar decks={[ {name: 'Deck 1'} ]} addingDeck={true}></Sidebar>
+//      </App>, document.getElementById('root'));
 
 // const store = Redux.createStore(function(state, action) {
 //     return {
