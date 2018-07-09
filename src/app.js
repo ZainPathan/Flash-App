@@ -5,8 +5,15 @@ import { stat } from "fs";
 // import { addDeck, showAddDeck, hideAddDeck } from "./actions";
 import * as reducers from "./reducers";
 import App from "./components/App";
-import Sidebar from './components/Sidebar';
 import { Provider } from "react-redux";
+import { Router, Route, browserHistory } from "react-router";
+import { syncHistoryWithStore, routerReducer } from "react-router-redux";
+
+import { createBrowserHistory } from "history";
+
+import VisibleCards from "./components/VisibleCards";
+
+reducers.routing = routerReducer;
 
 console.log('Hello React and Redux');
 
@@ -15,20 +22,19 @@ console.log('Hello React and Redux');
 //HIDE_ADD_DECK
 
 const store = createStore(combineReducers(reducers));
+const history = syncHistoryWithStore(browserHistory, store);
+// const history = syncHistoryWithStore(createBrowserHistory(), store);
 
 function run() {
     let state = store.getState();
     console.log('State : ', state);
     ReactDOM.render(
         <Provider store={store}>
-            <App>
-                <Sidebar />
-                    {/* // decks={state.decks} 
-                    // addingDeck={state.addingDeck}
-                    // addDeck={ name => store.dispatch(addDeck(name))}
-                    // showAddDeck={ () => store.dispatch(showAddDeck())}
-                    // hideAddDeck={ () => store.dispatch(hideAddDeck())} */}
-            </App>
+            <Router history={history}>
+                <Route path='/' component={App}>
+                    <Route path='/deck/:deckId' component={VisibleCards}/>
+                </Route>
+            </Router>
         </Provider>
         , document.getElementById('root')
     );
