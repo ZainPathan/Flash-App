@@ -12,7 +12,7 @@ import { syncHistoryWithStore, routerReducer } from "react-router-redux";
 import { createBrowserHistory } from "history";
 
 import VisibleCards from "./components/VisibleCards";
-
+import * as localStore from "./localStorage";
 reducers.routing = routerReducer;
 
 console.log('Hello React and Redux');
@@ -21,13 +21,16 @@ console.log('Hello React and Redux');
 //SHOW_ADD_DECK
 //HIDE_ADD_DECK
 
-const store = createStore(combineReducers(reducers));
+const store = createStore(combineReducers(reducers), localStore.get());
 const history = syncHistoryWithStore(browserHistory, store);
 // const history = syncHistoryWithStore(createBrowserHistory(), store);
 
 function run() {
     let state = store.getState();
     console.log('State : ', state);
+
+    localStore.set(state, ['decks', 'cards']);
+
     ReactDOM.render(
         <Provider store={store}>
             <Router history={history}>
