@@ -31217,31 +31217,6 @@ function symbolObservablePonyfill(root) {
 },{}],297:[function(require,module,exports){
 arguments[4][49][0].apply(exports,arguments)
 },{"_process":63,"dup":49}],298:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var addDeck = exports.addDeck = function addDeck(name) {
-    return {
-        type: 'ADD_DECK',
-        data: name
-    };
-};
-
-var showAddDeck = exports.showAddDeck = function showAddDeck() {
-    return {
-        type: 'SHOW_ADD_DECK'
-    };
-};
-
-var hideAddDeck = exports.hideAddDeck = function hideAddDeck() {
-    return {
-        type: 'HIDE_ADD_DECK'
-    };
-};
-
-},{}],299:[function(require,module,exports){
 "use strict";
 
 var _react = require("react");
@@ -31358,190 +31333,35 @@ store.dispatch({
 });
 */
 
-},{"./components/App":300,"./components/VisibleCards":302,"./reducers":303,"fs":1,"history":44,"react":285,"react-dom":71,"react-redux":207,"react-router":247,"react-router-redux":214,"redux":291}],300:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-var _Sidebar = require("./Sidebar");
-
-var _Sidebar2 = _interopRequireDefault(_Sidebar);
-
-var _reactRedux = require("react-redux");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var mapStateToProps = function mapStateToProps(state, _ref) {
-    var deckId = _ref.params.deckId;
-    return {
-        deckId: deckId
-    };
-};
-
-var App = function App(props) {
-    return _react2.default.createElement(
-        "div",
-        { className: "app" },
-        _react2.default.createElement(
-            "h1",
-            null,
-            "Hello React - created using a Functional Component - changed something"
-        ),
-        _react2.default.createElement(_Sidebar2.default, null),
-        _react2.default.createElement(
-            "h1",
-            null,
-            "Deck: ",
-            props.deckId
-        ),
-        props.children
-    );
-};
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(App);
-
-},{"./Sidebar":301,"react":285,"react-redux":207}],301:[function(require,module,exports){
+},{"./components/App":299,"./components/VisibleCards":300,"./reducers":301,"fs":1,"history":44,"react":285,"react-dom":71,"react-redux":207,"react-router":247,"react-router-redux":214,"redux":291}],299:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = require('react-dom');
-
-var _reactDom2 = _interopRequireDefault(_reactDom);
-
-var _reactRedux = require('react-redux');
-
-var _actions = require('../actions');
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-/*
-    decks={state.decks} 
-    addingDeck={state.addingDeck}
-
-    addDeck={ name => store.dispatch(addDeck(name))}
-    showAddDeck={ () => store.dispatch(showAddDeck())}
-    hideAddDeck={ () => store.dispatch(hideAddDeck())
-*/
-
-var mapStateToProps = function mapStateToProps(state) {
-    return {
-        decks: state.decks,
-        addingDeck: state.addingDeck
-    };
+var App = function App(props) {
+    return _react2.default.createElement(
+        'div',
+        { className: 'app' },
+        _react2.default.createElement(
+            'h1',
+            null,
+            'Hello React - created using a Functional Component - changed something'
+        ),
+        props.children
+    );
 };
 
-var mapDispatchToProp = function mapDispatchToProp(dispatch) {
-    return {
-        addDeck: function addDeck(name) {
-            return dispatch((0, _actions.addDeck)(name));
-        },
-        showAddDeck: function showAddDeck() {
-            return dispatch((0, _actions.showAddDeck)());
-        },
-        hideAddDeck: function hideAddDeck() {
-            return dispatch((0, _actions.hideAddDeck)());
-        }
-    };
-};
+exports.default = App;
 
-var Sidebar = function (_React$Component) {
-    _inherits(Sidebar, _React$Component);
-
-    function Sidebar(props) {
-        _classCallCheck(this, Sidebar);
-
-        var _this = _possibleConstructorReturn(this, (Sidebar.__proto__ || Object.getPrototypeOf(Sidebar)).call(this, props));
-
-        _this.createDeck = _this.createDeck.bind(_this);
-        return _this;
-    }
-
-    _createClass(Sidebar, [{
-        key: 'componentDidUpdate',
-        value: function componentDidUpdate() {
-            var el = _reactDom2.default.findDOMNode(this.refs.add);
-            if (el) el.focus();
-        }
-    }, {
-        key: 'render',
-        value: function render() {
-            var _this2 = this;
-
-            var props = this.props;
-
-            return _react2.default.createElement(
-                'div',
-                { className: 'sidebar' },
-                _react2.default.createElement(
-                    'h2',
-                    null,
-                    'All Decks'
-                ),
-                _react2.default.createElement(
-                    'button',
-                    { onClick: function onClick(e) {
-                            return _this2.props.showAddDeck();
-                        } },
-                    'New Deck'
-                ),
-                _react2.default.createElement(
-                    'ul',
-                    null,
-                    props.decks.map(function (deck, i) {
-                        return _react2.default.createElement(
-                            'li',
-                            { key: i },
-                            ' ',
-                            deck.name,
-                            ' '
-                        );
-                    })
-                ),
-                props.addingDeck && _react2.default.createElement('input', { ref: 'add', onKeyPress: this.createDeck })
-            );
-        }
-    }, {
-        key: 'createDeck',
-        value: function createDeck(e) {
-            if (e.which !== 13) return;
-
-            var name = _reactDom2.default.findDOMNode(this.refs.add).value;
-            this.props.addDeck(name);
-            this.props.hideAddDeck();
-        }
-    }]);
-
-    return Sidebar;
-}(_react2.default.Component);
-
-;
-
-// export default Sidebar;
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProp)(Sidebar);
-
-},{"../actions":298,"react":259,"react-dom":71,"react-redux":207}],302:[function(require,module,exports){
+},{"react":285}],300:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31564,7 +31384,7 @@ var Cards = function Cards(props) {
 
 exports.default = Cards;
 
-},{"react":285}],303:[function(require,module,exports){
+},{"react":285}],301:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31608,4 +31428,4 @@ var addingDeck = exports.addingDeck = function addingDeck(state, action) {
     }
 };
 
-},{}]},{},[299]);
+},{}]},{},[298]);
