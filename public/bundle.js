@@ -37,6 +37,11 @@ var App = function App(props) {
     return React.createElement(
         'div',
         { className: 'app' },
+        React.createElement(
+            'h1',
+            null,
+            'Hello React - created using a Functional Component - changed something'
+        ),
         props.children
     );
 };
