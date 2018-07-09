@@ -11,6 +11,8 @@ import { syncHistoryWithStore, routerReducer } from "react-router-redux";
 
 import { createBrowserHistory } from "history";
 
+import VisibleCards from "./components/VisibleCards";
+
 reducers.routing = routerReducer;
 
 console.log('Hello React and Redux');
@@ -20,8 +22,8 @@ console.log('Hello React and Redux');
 //HIDE_ADD_DECK
 
 const store = createStore(combineReducers(reducers));
-// const history = syncHistoryWithStore(browserHistory, store);
-const history = syncHistoryWithStore(createBrowserHistory(), store);
+const history = syncHistoryWithStore(browserHistory, store);
+// const history = syncHistoryWithStore(createBrowserHistory(), store);
 
 function run() {
     let state = store.getState();
@@ -29,7 +31,9 @@ function run() {
     ReactDOM.render(
         <Provider store={store}>
             <Router history={history}>
-                <Route path='/' component={App}></Route>
+                <Route path='/' component={App}>
+                    <Route path='/deck/:deckId' component={VisibleCards}/>
+                </Route>
             </Router>
         </Provider>
         , document.getElementById('root')
