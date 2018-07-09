@@ -2,10 +2,11 @@ import React from 'react'
 import ReactDOM from "react-dom";
 import { createStore, combineReducers } from "redux"; // * as Redux
 import { stat } from "fs";
-import { addDeck, showAddDeck, hideAddDeck } from "./actions";
+// import { addDeck, showAddDeck, hideAddDeck } from "./actions";
 import * as reducers from "./reducers";
 import App from "./components/App";
 import Sidebar from './components/Sidebar';
+import { Provider } from "react-redux";
 
 console.log('Hello React and Redux');
 
@@ -19,15 +20,17 @@ function run() {
     let state = store.getState();
     console.log('State : ', state);
     ReactDOM.render(
-        <App>
-            <Sidebar 
-                decks={state.decks} 
-                addingDeck={state.addingDeck}
-                addDeck={ name => store.dispatch(addDeck(name))}
-                showAddDeck={ () => store.dispatch(showAddDeck())}
-                hideAddDeck={ () => store.dispatch(hideAddDeck())}
-            />
-        </App>, document.getElementById('root')
+        <Provider store={store}>
+            <App>
+                <Sidebar />
+                    {/* // decks={state.decks} 
+                    // addingDeck={state.addingDeck}
+                    // addDeck={ name => store.dispatch(addDeck(name))}
+                    // showAddDeck={ () => store.dispatch(showAddDeck())}
+                    // hideAddDeck={ () => store.dispatch(hideAddDeck())} */}
+            </App>
+        </Provider>
+        , document.getElementById('root')
     );
 }
 

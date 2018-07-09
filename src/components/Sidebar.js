@@ -1,5 +1,31 @@
 import React from 'react'
 import ReactDOM from 'react-dom';
+import { connect } from "react-redux";
+import { addDeck, showAddDeck, hideAddDeck } from "../actions";
+
+/*
+    decks={state.decks} 
+    addingDeck={state.addingDeck}
+
+    addDeck={ name => store.dispatch(addDeck(name))}
+    showAddDeck={ () => store.dispatch(showAddDeck())}
+    hideAddDeck={ () => store.dispatch(hideAddDeck())
+*/
+
+const mapStateToProps = (state) => {
+    return {
+        decks: state.decks,
+        addingDeck: state.addingDeck
+    }
+};
+
+const mapDispatchToProp = (dispatch) => {
+    return {
+        addDeck: name => dispatch(addDeck(name)),
+        showAddDeck: () => dispatch(showAddDeck()),
+        hideAddDeck: () => dispatch(hideAddDeck())
+    }
+};
 
 class Sidebar extends React.Component {
     constructor(props) {
@@ -38,4 +64,6 @@ class Sidebar extends React.Component {
     }
 };
 
-export default Sidebar;
+// export default Sidebar;
+
+export default connect(mapStateToProps, mapDispatchToProp)(Sidebar);
