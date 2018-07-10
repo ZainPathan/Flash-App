@@ -14,7 +14,8 @@ const Toolbar = (props) => {
 
     let deckTools = props.deckId ? (
         <div>
-            <Link to={`/deck/${deckId}/new`}
+            <Link className='btn' to={`/deck/${props.deckId}/new`}> + New Card </Link>
+            <Link className='btn' to={`/deck/${props.deckId}/study`}> Study Deck </Link>
         </div>
     ) : null;
 
