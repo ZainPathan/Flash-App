@@ -1,13 +1,26 @@
 export const cards = (state, action) => {
     switch(action.type) {
-        case 'ADD_CARD': 
+        case 'ADD_CARD':
             let newCard = Object.assign({}, action.data, {
                 score: 1,
                 id: +new Date
             });
 
             return state.concat([newCard]);
-        default: 
+        
+        case 'UPDATE_CARD':
+            let cardUpdate = action.data;
+            return state.map(card => {
+                return ( card.id !== cardUpdate.id ) ? 
+                    card :
+                        Object.assign({}, card, cardUpdate);
+            });
+
+        case 'DELETE_CARD':
+            return state.filter((card) => {
+                return card.id !== action.data;
+            });
+        default:
             return state || [];
     }
 };

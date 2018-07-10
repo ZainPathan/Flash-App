@@ -15,6 +15,7 @@ import VisibleCards from "./components/VisibleCards";
 import * as localStore from "./localStorage";
 
 import NewCardModal from "./components/NewCardModal";
+import EditCardModal from './components/EditCardModal';
 
 reducers.routing = routerReducer;
 
@@ -39,7 +40,8 @@ function run() {
             <Router history={history}>
                 <Route path='/' component={App}>
                     <Route path='/deck/:deckId' component={VisibleCards}>
-                        <Route path='/deck/:deckId/new' component={NewCardModal}></Route> 
+                        <Route path='/deck/:deckId/new' component={NewCardModal}></Route>
+                        <Route path='/deck/:deckId/edit/:cardId' component={EditCardModal}></Route>
                     </Route>
                 </Route>
             </Router>
