@@ -13,6 +13,9 @@ import { createBrowserHistory } from "history";
 
 import VisibleCards from "./components/VisibleCards";
 import * as localStore from "./localStorage";
+
+import NewCardModal from "./components/NewCardModal";
+
 reducers.routing = routerReducer;
 
 console.log('Hello React and Redux');
@@ -35,7 +38,9 @@ function run() {
         <Provider store={store}>
             <Router history={history}>
                 <Route path='/' component={App}>
-                    <Route path='/deck/:deckId' component={VisibleCards}/>
+                    <Route path='/deck/:deckId' component={VisibleCards}>
+                        <Route path='/deck/:deckId/new' component={NewCardModal}></Route> 
+                    </Route>
                 </Route>
             </Router>
         </Provider>
